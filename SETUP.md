@@ -147,6 +147,14 @@ conda activate sdg_demo
 pip install git+https://github.com/instructlab/sdg
 ```
 
+### 5. Install ipykernel
+
+```bash
+pip install ipykernel
+python -m ipykernel install --user --name il-skills-demo --display-name "Python (il-skills-demo)"
+```
+
+
 Now you're ready to use the `instructlab/sdg` package in your `sdg_demo` environment!
 
 ---
