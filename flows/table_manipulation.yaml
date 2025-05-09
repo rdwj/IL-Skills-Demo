@@ -7,15 +7,9 @@ blocks:
       output_cols:
         - question
       batch_kwargs:
-        num_samples: 30
+        num_samples: 10
     drop_duplicates:
       - question
-
-  - name: add_question
-    type: AddStaticValue
-    config:
-      column_name: question
-      static_value: Convert the above feedback into a markdown table with columns for Feature, Feedback, and Sentiment?
 
   - name: eval_questions
     type: LLMBlock
