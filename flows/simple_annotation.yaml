@@ -1,0 +1,19 @@
+version: "1.0"
+blocks:
+  - name: annotation
+    type: LLMBlock
+    config:
+      config_path: ../prompts/simple_annotation.yaml
+      output_cols:
+        - output
+      gen_kwargs:
+        temperature: 0
+        max_tokens: 5
+        extra_body:
+          guided_choice:
+            - World
+            - Sports
+            - Business
+            - Sci/Tech
+    drop_duplicates:
+      - text
