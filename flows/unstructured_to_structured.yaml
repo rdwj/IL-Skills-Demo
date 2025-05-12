@@ -20,26 +20,6 @@ blocks:
       column_name: question
       static_value: Convert the above feedback into a markdown table with columns for Feature, Feedback, and Sentiment?
 
-  - name: eval_questions
-    type: LLMBlock
-    config:
-      config_path: ../prompts/evaluate_freeform_questions.yaml
-      output_cols:
-        - evaluation
-        - score
-
-  - name: filter_questions
-    type: FilterByValueBlock
-    config:
-      filter_column: score
-      filter_value: 1.0
-      operation: eq
-      convert_dtype: float
-    drop_columns:
-      - evaluation
-      - score
-      - num_samples
-
   - name: gen_responses
     type: LLMBlock
     config:
