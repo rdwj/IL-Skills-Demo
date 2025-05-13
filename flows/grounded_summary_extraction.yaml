@@ -40,3 +40,13 @@ blocks:
       config_path: ../prompts/sentiment.yaml
       output_cols:
         - sentiment
+
+  - name: format_json
+    type: JSONFormat
+    config:
+      output_column: json_output
+    drop_columns:
+      - summary
+      - keywords
+      - named_entities
+      - sentiment
