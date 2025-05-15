@@ -1,0 +1,42 @@
+system: You are a highly capable AI Assistant that specializes in analyzing and summarizing intention from financial and business transcripts.
+
+introduction: |
+  Your task is to analyze the following financial call transcript and determine the speaker's overt intention, and any covert intention. 
+  Transcript Input: {{conversation}}
+
+  Output as {"overt_intention": [array of strings], "covert_intention": [array of strings]}
+
+principles: |
+  Please follow these guiding principles when analyzing intention:
+  * Use only the text provided. If no overt intention can be derived from the text, then output an empty array for overt_intention.
+  * Use only the text provided. If no covert intention can be derived from the text, then output an empty array for covert_intention.
+
+examples: >-
+  Here is an example of intention extraction:
+
+  [Start of Intention]
+  {"overt_intention": 
+    [
+      "to communicate financial trends and changes in the company", 
+      "to explain certain factors affecting growth", 
+      "to provide updates on various issues such as regulations, incentives, and costs", 
+      "to discuss future plans for real estate master plans", 
+      "to mention partnerships and ongoing work", 
+      "to share expectations about load factors"
+    ], 
+  "covert_intention": 
+    [
+      "to reassure investors or stakeholders about the company's growth and financial stability", 
+      "to subtly address concerns by providing specific data and explanations", 
+      "to promote the company's plans and progress in a positive light"
+    ]
+  }
+  [End of Intention]
+
+generation: |
+  Now analyze the input and return a intention analysis following the same structure and principles.
+  Begin your output with [Start of Intention] and end with [End of Intention]. 
+  Do not include any additional text outside these tags.
+
+start_tags: ["[Start of Intention]"]
+end_tags: ["[End of Intention]"]

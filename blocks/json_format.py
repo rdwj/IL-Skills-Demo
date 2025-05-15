@@ -6,7 +6,31 @@ from instructlab.sdg.blocks.block import Block
 from datasets import Dataset
 import yaml
 import json
+import re
 
+def replace_unicode_escape_sequences(text):
+    replacements = {
+        '\u00a1': '¡',  # ¡ (inverted exclamation mark)
+        '\u00ac': '¡Á',  # Á (capital A with acute accent)
+        '\u00ab': '¡À',  # À (lowercase A with acute accent)
+        '\u00ae': '¡ä',  # ä (lowercase e with acute accent)
+        '\u00af': '¡â',  # â (lowercase a with circumflex accent)
+        '\u00b1': '¡£',  # £ (pound sign, used in Spanish currency notation)
+        '\u00bb': '¡¿',  # ¿ (inverted question mark)
+        '\u00bc': '¡“',  # “ ( quotation mark with guillemet)
+        '\u00bd': '¡’',  # ‘ ( apostrophe)
+        '\u00be': '¡’',  # ‟ (single quotation mark with guillemet)
+        '\u00bf': '¡»',  # » (right-pointing single quote)
+        '\u00c0': 'Á',  # á (lowercase A with acute accent)
+        '\u00c1': 'À',  # à (upper case A with acute accent)
+        '\u00e0': 'ä',  # ä (lowercase e with acute accent)
+        '\u00e1': 'â',  # â (lowercase a with circumflex accent)
+        '\u00f1': 'ñ',  # ñ (n with tilde, used in Spanish lettering)
+        '\u00d8': '',  # 8 (eight, sometimes represented as a digraph with a tilde in Spanish typography)
+    }
+    for key, value in replacements.items():
+        text = re.sub(key, value, text, flags=re.IGNORECASE)
+    return text
 
 @BlockRegistry.register("JSONFormat")
 class JSONFormat(Block):
@@ -41,6 +65,7 @@ class JSONFormat(Block):
         def format_json(sample):
             json_output = {
                 "summary": sample.get("summary", None),
+                "tldr": sample.get("tldr", None),
                 "keywords": None,
                 "named_entities": {
                     "organizations": None,
@@ -49,6 +74,9 @@ class JSONFormat(Block):
                     "dates": None,
                 },
                 "sentiment": sample.get("sentiment", None),
+                "seo": json.loads(sample.get("seo", None)),
+                "summary_es": replace_unicode_escape_sequences(sample.get("summary_es", None)),
+                # "intention": json.loads(sample.get("intention", None)), # Added for homework assignment.
             }
 
             try:

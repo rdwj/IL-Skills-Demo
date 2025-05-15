@@ -1,0 +1,60 @@
+version: "1.0"
+blocks:
+  - name: parse_transcript
+    type: DoclingParsePDF
+    config:
+      pdf_path_column: pdf_path
+      output_column: conversation
+
+  - name: add_question
+    type: AddStaticValue
+    config:
+      column_name: question
+      static_value: >
+        Extract summary, keywords, named entities, and sentiment from the transcript and return in JSON format.
+
+  - name: gen_summary
+    type: LLMBlock
+    config:
+      config_path: ../prompts/summary.yaml
+      output_cols:
+        - summary
+
+  - name: gen_keywords
+    type: LLMBlock
+    config:
+      config_path: ../prompts/keywords.yaml
+      output_cols:
+        - keywords
+
+  - name: gen_named_entities
+    type: LLMBlock
+    config:
+      config_path: ../prompts/named_entities.yaml
+      output_cols:
+        - named_entities
+
+  - name: gen_sentiment
+    type: LLMBlock
+    config:
+      config_path: ../prompts/sentiment.yaml
+      output_cols:
+        - sentiment
+  
+  - name: gen_intention
+    type: LLMBlock
+    config:
+      config_path: ../prompts/intention.yaml
+      output_cols:
+        - intention
+
+  - name: format_json
+    type: JSONFormat
+    config:
+      output_column: json_output
+    drop_columns:
+      - summary
+      - keywords
+      - named_entities
+      - sentiment
+      - intention
